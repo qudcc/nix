@@ -3,9 +3,6 @@
  */
 
 
-#include <stdio.h>
-
-
 unsigned int
 nix_rs_hash(int len, const char *str) {
     unsigned int  b = 378551;
