@@ -3,6 +3,8 @@
  */
 
 
+#include <sys/types.h>
+
 #include <node.h>
 #include <list.h>
 #include <hashtable.h>
