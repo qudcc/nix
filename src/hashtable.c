@@ -18,7 +18,7 @@ nix_hash(size_t len, const char *key) {
 }
 
 void
-nix_ht_init(hash_table_t *ht, int size,
+nix_hash_table_init(hash_table_t *ht, int size,
     unsigned int (*hash)(size_t len, intptr_t key);
     int (*cmp)(size_t len, intptr_t key, hash_table_node_t *node)) {
     ht->hash = hash;
@@ -30,7 +30,7 @@ nix_ht_init(hash_table_t *ht, int size,
 }
 
 int
-nix_ht_add(hash_table_t *ht, size_t len, intptr_t key,
+nix_hash_table_add(hash_table_t *ht, size_t len, intptr_t key,
     hash_table_node_t *(*alloc)(hash_table_node_t *)) {
     hash_table_node_t  *p;
     unsigned int        hash = ht->hash(len, key);
@@ -49,7 +49,7 @@ nix_ht_add(hash_table_t *ht, size_t len, intptr_t key,
 }
 
 int
-nix_ht_del(hash_table_t *ht, size_t len, intptr_t key,
+nix_hash_table_del(hash_table_t *ht, size_t len, intptr_t key,
     hash_table_node_t **pp) {
     hash_table_node_t  *p;
     unsigned int        hash = ht->hash(len, key);
@@ -67,7 +67,7 @@ nix_ht_del(hash_table_t *ht, size_t len, intptr_t key,
 }
 
 int
-nix_ht_find(hash_table_t *ht, size_t len, intptr_t key,
+nix_hash_table_find(hash_table_t *ht, size_t len, intptr_t key,
     hash_table_node_t **pp) {
     hash_table_node_t  *p;
     unsigned int        hash = ht->hash(len, key);
