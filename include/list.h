@@ -57,8 +57,8 @@ _;})
     nix_list_remove(node), nix_list_insert_tail(l, node)
 
 #define nix_list_each(l, cb) ({ nix_list_node_t *node, *_next; \
-    for (node = nix_list_head(l); node != (l); node = _next) \
-        _next = node->next, cb; \
+    for (node = nix_list_head(l); node != (l); \
+        _next = node->next, cb, node = _next); \
 node; })
 
 #define nix_list_remove_until(l, cb) ({ nix_list_node_t *node; \
