@@ -215,7 +215,7 @@ nix_md5_final(nix_md5_t *md5, nix_md5_digest_t digest) {
     nix_md5_update(md5, 8, (char *)&count);
 
     /* Store state in digest */
-    memcpy(digest, md5->state, NIX_MD5_DIGEST_LENGTH);
+    memcpy(digest, md5->state, NIX_MD5_DIGEST_LEN);
 
     /* Zeroize sensitive information. */
 }
