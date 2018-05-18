@@ -7,14 +7,14 @@
 #define NIX_MD5_H
 
 
-#define NIX_MD5_DIGEST_LENGTH 16
+#define NIX_MD5_DIGEST_LEN 16
 
-typedef char nix_md5_digest_t[NIX_MD5_DIGEST_LENGTH];
+typedef char nix_md5_digest_t[NIX_MD5_DIGEST_LEN];
 
 typedef struct {
     unsigned int   state[4]; /* state (ABCD) */
     unsigned long  count; /* number of bits, modulo 2^64 (lsb first) */
-    unsigned int   buffer[NIX_MD5_DIGEST_LENGTH]; /* input buffer */
+    unsigned int   buffer[NIX_MD5_DIGEST_LEN]; /* input buffer */
 } nix_md5_t;
 
 /* MD5 initialization. Begins an MD5 operation, initialize the context. */
