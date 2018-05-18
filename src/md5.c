@@ -219,11 +219,3 @@ nix_md5_final(nix_md5_t *md5, nix_md5_digest_t digest) {
 
     /* Zeroize sensitive information. */
 }
-
-void
-nix_md5_hash(size_t len, const char *buf, nix_md5_digest_t digest) {
-    nix_md5_t md5;
-    nix_md5_init(&md5);
-    nix_md5_update(&md5, len, buf);
-    nix_md5_final(&md5, digest);
-}
