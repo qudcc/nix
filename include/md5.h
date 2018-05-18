@@ -28,7 +28,12 @@ void nix_md5_update(nix_md5_t *md5, size_t len, const char *buf);
   the message digest and zeroizing the context. */
 void nix_md5_final(nix_md5_t *md5, nix_md5_digest_t digest);
 
-void nix_md5_hash(size_t len, const char *buf, nix_md5_digest_t digest);
+#define nix_md5_hash(len, buf, digest)  { \
+    nix_md5_t md5; \
+    nix_md5_init(&md5); \
+    nix_md5_update(&md5, len, buf); \
+    nix_md5_final(&md5, digest); \
+}
 
 
 #endif /* NIX_MD5_H */
