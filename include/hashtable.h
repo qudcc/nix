@@ -22,20 +22,20 @@ typedef struct {
     nix_list_node_t  buckets[];
 } hash_table_t;
 
-void nix_ht_init(hash_table_t *ht, int size,
+void nix_hash_table_init(hash_table_t *ht, int size,
     unsigned int (*hash)(size_t len, intptr_t key);
     int (*cmp)(size_t len, intptr_t key, hash_table_node_t *node));
-int nix_ht_add(hash_table_t *ht, size_t len, intptr_t key,
+int nix_hash_table_add(hash_table_t *ht, size_t len, intptr_t key,
     hash_table_node_t *(*alloc)(hash_table_node_t *));
-int nix_ht_del(hash_table_t *ht, size_t len, intptr_t key,
+int nix_hash_table_del(hash_table_t *ht, size_t len, intptr_t key,
     hash_table_node_t **pp);
-int nix_ht_find(hash_table_t *ht, size_t len, intptr_t key,
+int nix_hash_table_find(hash_table_t *ht, size_t len, intptr_t key,
     hash_table_node_t **pp);
 
-#define nix_ht_remove(ht, node) (ht)->len, \
+#define nix_hash_table_remove(ht, node) (ht)->len, \
     nix_list_remove(&node->bkt), nix_list_remove(&node->lst)
 
-#define nix_ht_each(ht, cb) ({ hash_table_node_t *node; \
+#define nix_hash_table_each(ht, cb) ({ hash_table_node_t *node; \
     nix_list_node_t *_node, *_next; \
     for (_node = nix_list_head(&(ht)->list); _node != &(ht)->list; \
         _next = _node->next, \
