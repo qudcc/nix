@@ -49,7 +49,7 @@ typedef volatile intptr_t nix_atomic_t;
  * The "cc" means that flags were changed.
  */
 
-static inline nix_int_t
+static inline intptr_t
 nix_atomic_cmp_set(nix_atomic_t *lock, intptr_t old, intptr_t set) {
     char res;
 
@@ -73,7 +73,7 @@ nix_atomic_cmp_set(nix_atomic_t *lock, intptr_t old, intptr_t set) {
  * The "cc" means that flags were changed.
  */
 
-static inline nix_int_t
+static inline intptr_t
 nix_atomic_fetch_add(nix_atomic_t *value, intptr_t add) {
 #if !((__GNUC__ == 2 && __GNUC_MINOR__ <= 7) || (__INTEL_COMPILER >= 800))
 /*
@@ -117,7 +117,21 @@ nix_atomic_fetch_add(nix_atomic_t *value, intptr_t add) {
 #define nix_lock_try(lock) (!*(lock) && nix_atomic_cmp_set(lock, 0, -1))
 #define nix_unlock(lock) *(lock) = 0
 
-void nix_spinlock(nix_atomic_t *lock, intptr_t value, intptr_t spin);
+#define nix_spinlock(lock, value, spin, ncpu)  { \
+    intptr_t  i, n; \
+    for (; *lock || !nix_atomic_cmp_set(lock, 0, value);) { \
+        if (1 < ncpu) { \
+            /* spin=1024 */ \
+            for (n = 1; n < spin; n <<= 1) { \
+                /* n=1,2,4,8,16,32,64,128,256,512 */ \
+                for (i = n; 0 < i--; nix_cpu_pause()); \
+                /* try again */ \
+                if (!*lock && nix_atomic_cmp_set(lock, 0, value)) goto _locked; \
+            } \
+        } \
+        sched_yield(); /* usleep(1) */ \
+    } \
+} _locked:
 
 typedef nix_atomic_t nix_mutex_t;
 #define nix_shmtx_init(mtx) (*(mtx) = 0)
