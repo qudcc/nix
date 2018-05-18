@@ -130,8 +130,8 @@ nix_atomic_fetch_add(nix_atomic_t *value, intptr_t add) {
             } \
         } \
         sched_yield(); /* usleep(1) */ \
-    } \
-} _locked:
+    } _locked: \
+}
 
 typedef nix_atomic_t nix_mutex_t;
 #define nix_shmtx_init(mtx) (*(mtx) = 0)
